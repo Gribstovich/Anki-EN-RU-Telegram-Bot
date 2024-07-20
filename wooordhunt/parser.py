@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import Optional, List, Tuple, Union
 
 import requests
+from bs4 import BeautifulSoup
 
 MAIN_URL = 'https://wooordhunt.ru'
 
@@ -32,3 +33,17 @@ def fetch_page(url: str) -> Optional[str]:
     except requests.RequestException as e:
         print(f'Error fetching page: {e}')
         return None
+
+
+def get_word_name(soup: BeautifulSoup) -> str:
+    """
+    Extract the word name from the page content.
+
+    Args:
+        soup (BeautifulSoup): The BeautifulSoup object containing the page content.
+
+    Returns:
+        str: The word name, or a default message if not found.
+    """
+    word_name = soup.find(['h1', 'h2'])
+    return word_name.text.strip().capitalize() if word_name else None
