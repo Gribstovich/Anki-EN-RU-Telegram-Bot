@@ -81,3 +81,17 @@ def get_word_transcription(soup: BeautifulSoup) -> Optional[str]:
         transcription = uk_tr_sound.text.strip().split()[-1]
         return f'[{transcription[1:-1]}]'
     return None
+
+
+def get_word_description(soup: BeautifulSoup) -> Optional[str]:
+    """
+    Extract a short description of the word from the page content.
+
+    Args:
+        soup (BeautifulSoup): The BeautifulSoup object containing the page content.
+
+    Returns:
+        Optional[str]: The short description of the word, or None if not found.
+    """
+    description = soup.find('div', class_='t_inline_en')
+    return description.text.strip().capitalize() if description else None
