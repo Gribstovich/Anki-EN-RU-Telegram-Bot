@@ -47,3 +47,20 @@ def get_word_name(soup: BeautifulSoup) -> str:
     """
     word_name = soup.find(['h1', 'h2'])
     return word_name.text.strip().capitalize() if word_name else None
+
+
+def get_word_rank(soup: BeautifulSoup) -> Optional[int]:
+    """
+    Extract the rank of the word from the page content.
+
+    Args:
+        soup (BeautifulSoup): The BeautifulSoup object containing the page content.
+
+    Returns:
+        Optional[int]: The word rank, or None if not found or invalid.
+    """
+    rank_element = soup.find(id='word_rank_box')
+    try:
+        return int(rank_element.text.strip()) if rank_element else None
+    except ValueError:
+        return None
