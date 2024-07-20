@@ -95,3 +95,22 @@ def get_word_description(soup: BeautifulSoup) -> Optional[str]:
     """
     description = soup.find('div', class_='t_inline_en')
     return description.text.strip().capitalize() if description else None
+
+
+def get_word_examples(soup: BeautifulSoup) -> Union[List[Tuple[str, str]], str]:
+    """
+    Extract usage examples of the word from the page content.
+
+    Args:
+        soup (BeautifulSoup): The BeautifulSoup object containing the page content.
+
+    Returns:
+        Union[List[Tuple[str, str]], str]: A list of tuples where each tuple contains an original example and its translation, or a default message if not found.
+    """
+    original_texts = soup.find_all('p', class_='ex_o')
+    translated_texts = soup.find_all('p', class_='ex_t')
+
+    examples = [(orig.get_text(strip=True), trans.get_text(strip=True))
+                for orig, trans in zip(original_texts, translated_texts)]
+
+    return examples if examples else None
