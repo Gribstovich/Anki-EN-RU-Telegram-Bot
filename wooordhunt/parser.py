@@ -64,3 +64,20 @@ def get_word_rank(soup: BeautifulSoup) -> Optional[int]:
         return int(rank_element.text.strip()) if rank_element else None
     except ValueError:
         return None
+
+
+def get_word_transcription(soup: BeautifulSoup) -> Optional[str]:
+    """
+    Extract the transcription of the word from the page content.
+
+    Args:
+        soup (BeautifulSoup): The BeautifulSoup object containing the page content.
+
+    Returns:
+        Optional[str]: The word transcription, or None if not found.
+    """
+    uk_tr_sound = soup.find(id='uk_tr_sound')
+    if uk_tr_sound:
+        transcription = uk_tr_sound.text.strip().split()[-1]
+        return f'[{transcription[1:-1]}]'
+    return None
