@@ -16,6 +16,26 @@ class WordDetails:
     examples: Union[List[Tuple[str, str]], None]
 
 
+def parse_word(page_content: str) -> WordDetails:
+    """
+    Parse the HTML content of the page to extract word details.
+
+    Args:
+        page_content (str): The HTML content of the page.
+
+    Returns:
+        WordDetails: An instance of WordDetails with parsed word details.
+    """
+    soup = BeautifulSoup(page_content, 'lxml')
+    return WordDetails(
+        name=get_word_name(soup),
+        rank=get_word_rank(soup),
+        transcription=get_word_transcription(soup),
+        description=get_word_description(soup),
+        examples=get_word_examples(soup)
+    )
+
+
 def fetch_page(url: str) -> Optional[str]:
     """
     Fetch the content of a page from a given URL.
@@ -33,6 +53,21 @@ def fetch_page(url: str) -> Optional[str]:
     except requests.RequestException as e:
         print(f'Error fetching page: {e}')
         return None
+
+
+def get_word(word: str) -> Optional[WordDetails]:
+    """
+    Retrieve detailed description of a word from the website.
+
+    Args:
+        word (str): The word to retrieve information for.
+
+    Returns:
+        Optional[WordDetails]: An instance of WordDetails with details about the word, or None if the word is not found.
+    """
+    url = f'{MAIN_URL}/word/{word}'
+    page_content = fetch_page(url)
+    return parse_word(page_content) if page_content else None
 
 
 def get_word_name(soup: BeautifulSoup) -> str:
