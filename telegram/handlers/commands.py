@@ -29,7 +29,7 @@ async def help_command(message: types.Message) -> None:
     await message.answer(config.HELP_MESSAGE)
 
 
-def register_handlers(dp: Dispatcher) -> None:
+def register_command_handlers(dp: Dispatcher) -> None:
     """
     Register command handlers with the dispatcher.
 

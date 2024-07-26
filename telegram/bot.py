@@ -7,7 +7,7 @@ from aiogram.types import BotCommand
 from config import config
 from filters.exclude_start_filter import ExcludeStartFilter
 from filters.user_filter import UserFilter
-from handlers import commands
+from handlers.register_handlers import register_all_handlers
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -21,8 +21,8 @@ dp = Dispatcher(bot=bot, storage=storage)
 user_filter = UserFilter()
 exclude_start_filter = ExcludeStartFilter(user_filter)
 
-# Register command handlers
-commands.register_handlers(dp)
+# Register handlers
+register_all_handlers(dp)
 
 # Apply filters
 dp.message.filter(exclude_start_filter)
