@@ -1,7 +1,7 @@
 from aiogram import Dispatcher
 
-from .commands import register_command_handlers
 from .query import register_query_handlers
+from .start_command import register_start_command_handler
 
 
 def register_all_handlers(dp: Dispatcher) -> None:
@@ -10,5 +10,5 @@ def register_all_handlers(dp: Dispatcher) -> None:
 
     :param dp: The dispatcher instance to register handlers with.
     """
-    register_command_handlers(dp)
+    register_start_command_handler(dp)
     register_query_handlers(dp)
