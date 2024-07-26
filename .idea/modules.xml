@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Anki-EN-RU-Telegram-Bot.iml" filepath="$PROJECT_DIR$/.idea/Anki-EN-RU-Telegram-Bot.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../MyScripts/.idea/MyScripts.iml" filepath="$PROJECT_DIR$/../MyScripts/.idea/MyScripts.iml" />
     </modules>
   </component>
 </project>

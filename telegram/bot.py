@@ -1,7 +1,6 @@
 import logging
 
 from aiogram import Bot, Dispatcher
-from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.types import BotCommand
 
 from config import config
@@ -13,9 +12,8 @@ from handlers.register_handlers import register_all_handlers
 logging.basicConfig(level=logging.INFO)
 
 # Initialize Bot and Dispatcher
-bot = Bot(token=config.BOT_TOKEN)
-storage = MemoryStorage()
-dp = Dispatcher(bot=bot, storage=storage)
+bot = Bot(config.BOT_TOKEN)
+dp = Dispatcher(bot=bot)
 
 # Initialize and apply filters
 user_filter = UserFilter()
@@ -30,10 +28,7 @@ async def on_startup() -> None:
     """
     Set bot commands when the bot starts up.
     """
-    await bot.set_my_commands([
-        BotCommand(command='/start', description='Запустить бота'),
-        BotCommand(command='/help', description='Помощь')
-    ])
+    await bot.set_my_commands([BotCommand(command='/start', description='Запустить бота')])
 
 
 if __name__ == '__main__':

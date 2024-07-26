@@ -11,14 +11,9 @@ class Config:
         load_dotenv()
         self.BOT_TOKEN = os.getenv('BOT_TOKEN')
         self.ALLOWED_USER_IDS = list(map(int, os.getenv('ALLOWED_USER_IDS').split(',')))
-
-        self.USER_NOT_AUTHORIZED_MESSAGE = """*У вас нет доступа к боту\.*\n
-Чтобы получить доступ, откройте файл `telegram\\\\\.env` и добавьте следующую строку: `ALLOWED_USER_IDS={}`\.\n
-Если вы пользуетесь ботом с нескольких аккаунтов, добавьте их id через запятую\."""
-
-        self.HELP_MESSAGE = """Напишу позднее"""
-
-        self.NOT_ENGLISH_WORD_MESSAGE = """Бот понимает только сообщения из одного слова латинскими буквами\."""
+        self.USER_NOT_AUTHORIZED_MESSAGE = """<strong>У вас нет доступа к боту</strong>\n\nЧтобы получить доступ, откройте файл <code>telegram\\.env</code> и добавьте следующую строку: <code>ALLOWED_USER_IDS={}</code>\n\nЕсли вы пользуетесь ботом с нескольких аккаунтов, добавьте их id через запятую"""
+        self.START_MESSAGE = """Отправьте английское слово, бот найдёт его в WooordHunt и предложит сохранить в вашу коллекцию в Anki\n\nПодробности на GitHub: https://github.com/Gribstovich/Anki-EN-RU-Telegram-Bot"""
+        self.NOT_ENGLISH_WORD_MESSAGE = """Бот понимает только сообщения из одного слова латинскими буквами"""
 
 
 config = Config()
