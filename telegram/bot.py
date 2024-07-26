@@ -17,15 +17,13 @@ bot = Bot(token=config.BOT_TOKEN)
 storage = MemoryStorage()
 dp = Dispatcher(bot=bot, storage=storage)
 
-# Initialize filters
+# Initialize and apply filters
 user_filter = UserFilter()
 exclude_start_filter = ExcludeStartFilter(user_filter)
+dp.message.filter(exclude_start_filter)
 
 # Register handlers
 register_all_handlers(dp)
-
-# Apply filters
-dp.message.filter(exclude_start_filter)
 
 
 async def on_startup() -> None:
@@ -33,8 +31,8 @@ async def on_startup() -> None:
     Set bot commands when the bot starts up.
     """
     await bot.set_my_commands([
-        BotCommand(command="/start", description="Start the bot"),
-        BotCommand(command="/help", description="Help")
+        BotCommand(command='/start', description='Запустить бота'),
+        BotCommand(command='/help', description='Помощь')
     ])
 
 
