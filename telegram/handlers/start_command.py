@@ -14,7 +14,7 @@ async def start_command(message: types.Message) -> None:
     if message.from_user.id not in config.ALLOWED_USER_IDS:
         await message.answer(
             config.USER_NOT_AUTHORIZED_MESSAGE.format(message.from_user.id),
-            parse_mode=ParseMode.MARKDOWN_V2
+            parse_mode=ParseMode.HTML
         )
         return
     await message.answer(config.HELP_MESSAGE)
