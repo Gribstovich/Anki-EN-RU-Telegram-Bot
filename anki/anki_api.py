@@ -1,33 +1,23 @@
 from typing import Dict, Optional, Union, NoReturn
 
-from base import invoke
+from anki.base import invoke
 
 
-def create_deck(deck_name: str) -> Dict[str, Optional[Union[int, None]]]:
+async def get_decks() -> list[str]:
     """
-    Creates a new deck in Anki with the given name.
+    Retrieves all deck names that do not have children decks.
 
-    :param deck_name: The name of the deck to be created.
-    :return: A dictionary containing the result and any error.
-        - 'result': The ID of the created deck (int) or None if an error occurred.
-        - 'error': None if successful, otherwise an error message.
+    :return: A list of deck names without children.
     """
-    return invoke('createDeck', deck=deck_name)
+    all_decks = await invoke('deckNames')
+    decks_without_children = [
+        deck for deck in all_decks
+        if deck != 'По умолчанию' and not any(inner_deck.startswith(f'{deck}::') for inner_deck in all_decks)
+    ]
+    return sorted(decks_without_children)
 
 
-def get_decks() -> Dict[str, Optional[Union[Dict[str, int], None]]]:
-    """
-    Retrieves all deck names and their corresponding IDs.
-
-    :return: A dictionary containing deck names as keys and their IDs as values,
-        or None if an error occurred.
-        - 'result': A dictionary with deck names as keys and deck IDs as values.
-        - 'error': None if successful, otherwise an error message.
-    """
-    return invoke('deckNamesAndIds')
-
-
-def add_note(deck_name: str, front: str, back: str) -> Dict[str, Optional[Union[int, None]]]:
+async def add_note(deck_name: str, front: str, back: str) -> Dict[str, Optional[Union[int, None]]]:
     """
     Adds a new note to the specified deck.
 
@@ -50,14 +40,14 @@ def add_note(deck_name: str, front: str, back: str) -> Dict[str, Optional[Union[
             'duplicateScope': 'deck'
         }
     }
-    return invoke('addNote', note=note)
+    return await invoke('addNote', note=note)
 
 
-def sync() -> NoReturn:
+async def sync() -> NoReturn:
     """
     Synchronizes the local Anki collection with the AnkiWeb server.
 
     This function does not return any value. The response from Anki-Connect will always be:
     {"result": null, "error": null}
     """
-    invoke('sync')
+    await invoke('sync')
