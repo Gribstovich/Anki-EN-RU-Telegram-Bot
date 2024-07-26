@@ -24,6 +24,6 @@ class ExcludeStartFilter(BaseFilter):
         :param message: The message object from the user.
         :return: True if the message is /start or passes the UserFilter, False otherwise.
         """
-        if message.text.startswith('/start'):
+        if message.text and message.text.startswith('/start'):
             return True
         return await self.user_filter.__call__(message)
