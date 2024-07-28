@@ -50,7 +50,7 @@ A Telegram bot that generates English word cards using WooordHunt and adds them 
     ```
 
 ## License
-This project is licensed under the GPL-3.0 License. For more details, see the [LICENSE.md](LICENSE.md) file.
+This project is licensed under the GPL-3.0 License. For more details, see the [LICENSE.md](LICENSE) file.
 
 ## Acknowledgments
 Hat tip to the contributors of [aiogram](https://github.com/aiogram/aiogram) and [Anki](https://github.com/ankitects/anki), and to FooSoft for [Anki-Connect](https://github.com/FooSoft/anki-connect).
