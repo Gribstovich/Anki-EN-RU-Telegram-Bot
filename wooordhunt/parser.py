@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional, List, Tuple, Union
 
-import requests
+import aiohttp
 from bs4 import BeautifulSoup
 
 MAIN_URL = 'https://wooordhunt.ru'
@@ -36,7 +36,7 @@ def parse_word(page_content: str) -> WordDetails:
     )
 
 
-def fetch_page(url: str) -> Optional[str]:
+async def fetch_page(url: str) -> Optional[str]:
     """
     Fetch the content of a page from a given URL.
 
@@ -47,15 +47,16 @@ def fetch_page(url: str) -> Optional[str]:
         Optional[str]: The HTML content of the page, or None if an error occurred.
     """
     try:
-        response = requests.get(url)
-        response.raise_for_status()
-        return response.text
-    except requests.RequestException as e:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url) as response:
+                response.raise_for_status()
+                return await response.text()
+    except aiohttp.ClientError as e:
         print(f'Error fetching page: {e}')
-        return None
+        return
 
 
-def get_word(word: str) -> Optional[WordDetails]:
+async def get_word(word: str) -> Optional[WordDetails]:
     """
     Retrieve detailed description of a word from the website.
 
@@ -66,7 +67,7 @@ def get_word(word: str) -> Optional[WordDetails]:
         Optional[WordDetails]: An instance of WordDetails with details about the word, or None if the word is not found.
     """
     url = f'{MAIN_URL}/word/{word}'
-    page_content = fetch_page(url)
+    page_content = await fetch_page(url)
     return parse_word(page_content) if page_content else None
 
 
