@@ -16,8 +16,7 @@ logging.basicConfig(level=logging.INFO)
 # Initialize Bot and Dispatcher
 bot = Bot(token=config.BOT_TOKEN,
           default=DefaultBotProperties(
-              parse_mode=ParseMode.HTML,
-              link_preview_is_disabled=True)
+              parse_mode=ParseMode.HTML)
           )
 dp = Dispatcher(bot=bot)
 
