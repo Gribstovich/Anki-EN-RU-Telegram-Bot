@@ -1,5 +1,4 @@
 from aiogram import Dispatcher, F, types
-from aiogram.enums import ParseMode
 from aiogram.filters.callback_data import CallbackQuery
 
 from anki import anki_api
@@ -24,27 +23,29 @@ async def handle_text_message(message: types.Message) -> None:
     """
     text = message.text
     if not (text.isalpha() and text.isascii() and len(text.split()) == 1):
-        await message.reply(
-            config.NOT_ENGLISH_WORD_MESSAGE.format(message.from_user.id),
-            parse_mode=ParseMode.HTML
-        )
+        await message.reply(config.NOT_ENGLISH_WORD_MESSAGE.format(message.from_user.id))
         return
 
     global word
-    word = parser.get_word(text)
+    word = await parser.get_word(text)
     if not word or not any((word.description, word.transcription, word.rank, word.examples)):
         await message.reply('WooordHunt не знает такого слова')
     else:
-        examples = '\n———\n'.join([f'{e[0]}\n{e[1]}' for e in word.examples][:5])
-        text = (f'<strong>{word.name}</strong>\n\n'
+        if word.examples:
+            examples = '\n———\n'.join([f'{e[0]}\n{e[1]}' for e in word.examples][:5])
+        else:
+            examples = None
+        text = (f'<a href="https://wooordhunt.ru/word/{word.name}">{word.name}</a>\n\n'
                 f'<strong>Перевод:</strong> {word.description}\n'
                 f'<strong>Транскрипция:</strong> {word.transcription}\n'
                 f'<strong>Популярность:</strong> {word.rank}\n\n'
                 f'<strong>Примеры:</strong>\n'
                 f'{examples}')
-        await message.reply(text,
-                            parse_mode=ParseMode.HTML,
-                            reply_markup=await generate_deck_keyboard())
+        if all((word.name, word.description, word.transcription)):
+            await message.reply(text, reply_markup=await generate_deck_keyboard())
+        else:
+            text += '\n\n<strong>Невозможно сохранить слово из-за отсутствия названия, перевода или транскрипции</strong>'
+            await message.reply(text)
 
 
 async def handle_deck_selection(callback_query: CallbackQuery) -> None:
@@ -57,7 +58,7 @@ async def handle_deck_selection(callback_query: CallbackQuery) -> None:
 
     :param callback_query: The callback query object containing the callback data from the inline keyboard.
     """
-    await callback_query.message.edit_text(callback_query.message.text)
+    await callback_query.message.edit_text(callback_query.message.html_text)
 
     deck = callback_query.data
     if deck == "Don`t_Save":
