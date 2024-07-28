@@ -1,5 +1,4 @@
 from aiogram import types, Dispatcher
-from aiogram.enums import ParseMode
 from aiogram.filters import Command
 
 from telegram.config import config
@@ -13,9 +12,7 @@ async def start_command(message: types.Message) -> None:
     """
     if message.from_user.id not in config.ALLOWED_USER_IDS:
         await message.answer(
-            config.USER_NOT_AUTHORIZED_MESSAGE.format(message.from_user.id),
-            parse_mode=ParseMode.HTML
-        )
+            config.USER_NOT_AUTHORIZED_MESSAGE.format(message.from_user.id))
         return
     await message.answer(config.START_MESSAGE, disable_web_page_preview=True)
 

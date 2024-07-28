@@ -1,6 +1,8 @@
 import logging
 
 from aiogram import Bot, Dispatcher
+from aiogram.client.default import DefaultBotProperties
+from aiogram.enums import ParseMode
 from aiogram.types import BotCommand
 
 from config import config
@@ -12,7 +14,10 @@ from handlers.register_handlers import register_all_handlers
 logging.basicConfig(level=logging.INFO)
 
 # Initialize Bot and Dispatcher
-bot = Bot(config.BOT_TOKEN)
+bot = Bot(token=config.BOT_TOKEN,
+          default=DefaultBotProperties(
+              parse_mode=ParseMode.HTML)
+          )
 dp = Dispatcher(bot=bot)
 
 # Initialize and apply filters
