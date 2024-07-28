@@ -11,10 +11,9 @@ async def start_command(message: types.Message) -> None:
     :param message: The message object containing the /start command.
     """
     if message.from_user.id not in config.ALLOWED_USER_IDS:
-        await message.answer(
-            config.USER_NOT_AUTHORIZED_MESSAGE.format(message.from_user.id))
+        await message.answer(config.USER_NOT_AUTHORIZED_MESSAGE.format(message.from_user.id))
         return
-    await message.answer(config.START_MESSAGE, disable_web_page_preview=True)
+    await message.answer(config.START_MESSAGE)
 
 
 def register_start_command_handler(dp: Dispatcher) -> None:
