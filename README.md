@@ -1,7 +1,8 @@
 # WooordHunt to Anki Bot
-![Works with Python versions 3.8-3.12](https://img.shields.io/badge/Python-%203.8%20%7C%203.9%20%7C%203.10%20%7C%203.11%20%7C%203.12%20-0B61A4)
-![Aiogram 3.10](https://img.shields.io/badge/Aiogram-3.10-FFAA00)
-![GPL-3.0 license](https://img.shields.io/github/license/Gribstovich/WooordHunt-to-Anki-Bot?color=FF7400)
+![Works with Python versions 3.8-3.12](https://img.shields.io/badge/Python-%203.8%20%7C%203.9%20%7C%203.10%20%7C%203.11%20%7C%203.12%20-1781BF)
+![Aiogram 3.10](https://img.shields.io/badge/Aiogram-3.10-FFEF00)
+![GPL v3.0 license](https://img.shields.io/badge/License-GPL%20v3.0-FF4B11)
+
 
 ## About the Project
 A Telegram bot that generates English word cards using WooordHunt and adds them to your Anki collection.
